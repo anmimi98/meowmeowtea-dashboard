@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>묘묘티 Brand Command Center</title>
+<script>
+(function() {
+  const PASS = 'meowmood2026';
+  const KEY = 'mmt_auth';
+  function check() {
+    if (sessionStorage.getItem(KEY) === '1') return;
+    document.addEventListener('DOMContentLoaded', function() {
+      document.body.style.display = 'none';
+      var overlay = document.createElement('div');
+      overlay.id = 'auth-overlay';
+      overlay.innerHTML = `
+        <div style="position:fixed;inset:0;background:#F3EFF8;display:flex;align-items:center;justify-content:center;z-index:9999;font-family:-apple-system,'Apple SD Gothic Neo',sans-serif">
+          <div style="background:white;border:1.5px solid #E2D8F0;border-radius:20px;padding:40px 36px;text-align:center;width:320px;box-shadow:0 8px 40px rgba(91,31,174,0.12)">
+            <div style="font-size:36px;margin-bottom:12px">🐱</div>
+            <div style="font-size:18px;font-weight:900;color:#3D0D8A;margin-bottom:4px">묘묘티</div>
+            <div style="font-size:11px;color:#B0A0CC;letter-spacing:1px;text-transform:uppercase;margin-bottom:28px">Brand Command Center</div>
+            <input id="pw-input" type="password" placeholder="비밀번호를 입력하세요"
+              style="width:100%;border:1.5px solid #E2D8F0;border-radius:10px;padding:10px 14px;font-size:14px;font-family:inherit;outline:none;background:#F3EFF8;color:#1E0A3C;text-align:center;margin-bottom:12px"
+              onkeydown="if(event.key==='Enter')document.getElementById('pw-btn').click()">
+            <button id="pw-btn"
+              style="width:100%;background:#5B1FAE;color:white;border:none;border-radius:10px;padding:11px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit"
+              onclick="(function(){
+                var v=document.getElementById('pw-input').value;
+                if(v==='${PASS}'){sessionStorage.setItem('${KEY}','1');document.getElementById('auth-overlay').remove();document.body.style.display='';}
+                else{document.getElementById('pw-input').style.borderColor='#E07B7B';document.getElementById('pw-input').value='';document.getElementById('pw-input').placeholder='틀렸어요, 다시 시도하세요 🙅';}
+              })()">입장하기</button>
+          </div>
+        </div>`;
+      document.body.appendChild(overlay);
+    });
+  }
+  check();
+})();
+</script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+:root {
+  color-scheme: light;
+  --bg: #F3EFF8;
+  --sidebar-bg: #FFFFFF;
+  --card-bg: #FFFFFF;
+  --border: #E2D8F0;
+  --text: #1E0A3C;
+  --mid: #7A6A9A;
+  --light: #B0A0CC;
+  --accent: #5B1FAE;
+  --accent-hover: #4A18900;
+  --purple-light: #C9A0F0;
+  --purple-pale: #EDE4FA;
+  --peach: #F4A96A;
+  --sage: #6BAF8E;
+  --rose: #E07B7B;
+  --yellow: #D4A847;
+  --pixel-dark: #3D0D8A;
+  --pixel-light: #D8A8F0;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, 'Apple SD Gothic Neo', 'Pretendard', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  height: 100vh;
+  display: flex;
+  overflow: hidden;
+  font-size: 13px;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 210px;
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  flex-shrink: 0;
+}
+.sidebar-brand {
+  padding: 16px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 8px;
+  background: linear-gradient(135deg, #F8F4FF 0%, #EDE4FA 100%);
+}
+.logo-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.logo-img {
+  width: 52px;
+  height: auto;
+  image-rendering: pixelated;
+}
+.brand-text { }
+.sidebar-brand-name {
+  font-size: 13px;
+  font-weight: 900;
+  color: var(--pixel-dark);
+  letter-spacing: -0.3px;
+}
+.sidebar-brand-sub {
+  font-size: 9px;
+  color: var(--mid);
+  margin-top: 2px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.nav-section {
+  padding: 8px 16px 4px;
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--light);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  cursor: pointer;
+  color: var(--mid);
+  transition: all 0.15s;
+  font-size: 13px;
+  position: relative;
+}
+.nav-item:hover { background: var(--purple-pale); color: var(--accent); }
+.nav-item.active {
+  background: var(--purple-pale);
+  color: var(--accent);
+  font-weight: 700;
+}
+.nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 4px; bottom: 4px;
+  width: 3px;
+  background: var(--accent);
+  border-radius: 0 2px 2px 0;
+}
+.nav-icon { font-size: 14px; width: 18px; text-align: center; }
+.nav-badge {
+  margin-left: auto;
+  background: var(--rose);
+  color: white;
+  border-radius: 10px;
+  padding: 1px 6px;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+/* MAIN */
+.main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+.topbar {
+  background: var(--sidebar-bg);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+.topbar-title { font-size: 16px; font-weight: 800; color: var(--pixel-dark); }
+.btn-new {
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 7px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: opacity 0.15s;
+}
+.btn-new:hover { opacity: 0.85; }
+.filter-tabs { display: flex; gap: 4px; }
+.filter-tab {
+  background: none;
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  padding: 5px 12px;
+  font-size: 12px;
+  cursor: pointer;
+  color: var(--mid);
+  font-family: inherit;
+  transition: all 0.15s;
+}
+.filter-tab.active, .filter-tab:hover {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+.content { flex: 1; overflow-y: auto; padding: 20px; }
+.view { display: none; }
+.view.active { display: block; }
+
+/* ─── PROJECT VIEW ─── */
+.columns { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.column-header {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--mid);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.col-count {
+  background: var(--purple-pale);
+  color: var(--accent);
+  border-radius: 10px;
+  padding: 1px 7px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.project-card {
+  background: var(--card-bg);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.project-card:hover {
+  border-color: var(--purple-light);
+  box-shadow: 0 2px 12px rgba(91,31,174,0.10);
+}
+.card-title { font-size: 13px; font-weight: 700; margin-bottom: 8px; line-height: 1.3; color: var(--text); }
+.card-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 10px; }
+.tag { border-radius: 5px; padding: 2px 8px; font-size: 10px; font-weight: 700; }
+.tag-product  { background: #FDE8D4; color: #C06020; }
+.tag-marketing { background: #EDE4FA; color: #5B1FAE; }
+.tag-sales    { background: #D4EDE4; color: #2A7A54; }
+.tag-design   { background: #D4E8F5; color: #2060A0; }
+.tag-high     { background: #FFF0D0; color: #A07000; }
+.tag-normal   { background: #F0EDF6; color: #7A6A9A; }
+.progress-bar-bg { height: 4px; background: var(--bg); border-radius: 2px; overflow: hidden; margin-bottom: 4px; }
+.progress-bar-fill { height: 100%; border-radius: 2px; }
+.progress-meta { display: flex; justify-content: space-between; font-size: 11px; color: var(--light); }
+.card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); }
+.card-dept { font-size: 11px; color: var(--mid); }
+.card-dday { font-size: 11px; font-weight: 700; }
+.card-dday.over { color: var(--rose); }
+.card-dday.soon { color: var(--yellow); }
+.card-dday.ok  { color: var(--sage); }
+.ai-badge { display: inline-flex; align-items: center; gap: 3px; background: var(--purple-pale); color: var(--accent); border-radius: 5px; padding: 2px 7px; font-size: 10px; font-weight: 600; }
+.empty-state { text-align: center; padding: 36px 16px; color: var(--light); font-size: 12px; }
+.empty-icon { font-size: 26px; margin-bottom: 8px; }
+
+/* ─── LOG VIEW ─── */
+.log-filters { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
+.log-filter-btn {
+  background: none;
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  padding: 5px 12px;
+  font-size: 11px;
+  cursor: pointer;
+  color: var(--mid);
+  font-family: inherit;
+  transition: all 0.15s;
+}
+.log-filter-btn.active {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+.log-filter-btn:hover:not(.active) {
+  background: var(--purple-pale);
+  color: var(--accent);
+  border-color: var(--purple-light);
+}
+
+.log-list { display: flex; flex-direction: column; gap: 2px; }
+.log-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  background: var(--card-bg);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.log-item:hover {
+  border-color: var(--purple-light);
+  box-shadow: 0 2px 8px rgba(91,31,174,0.08);
+}
+.log-icon {
+  font-size: 15px;
+  flex-shrink: 0;
+  width: 30px; height: 30px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+}
+.log-title { flex: 1; font-size: 13px; font-weight: 600; line-height: 1.3; }
+.log-slug { font-size: 10px; color: var(--light); font-family: monospace; margin-top: 2px; }
+.log-type {
+  font-size: 10px;
+  color: var(--mid);
+  padding: 2px 8px;
+  background: var(--purple-pale);
+  border-radius: 5px;
+  flex-shrink: 0;
+  font-weight: 600;
+}
+.log-tag {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 5px;
+}
+.log-date { font-size: 11px; color: var(--light); flex-shrink: 0; min-width: 72px; text-align: right; }
+
+/* LOG DETAIL */
+.log-detail-overlay {
+  position: fixed; inset: 0;
+  background: rgba(30,10,60,0.2);
+  display: none; align-items: flex-start; justify-content: flex-end;
+  z-index: 200; padding: 12px;
+}
+.log-detail-overlay.open { display: flex; }
+.log-detail-panel {
+  background: white;
+  border-radius: 16px;
+  width: 480px;
+  max-height: calc(100vh - 24px);
+  overflow-y: auto;
+  box-shadow: 0 8px 40px rgba(91,31,174,0.15);
+  border: 1.5px solid var(--border);
+}
+.log-detail-header {
+  padding: 20px 20px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: flex-start; gap: 12px;
+  background: linear-gradient(135deg, #F8F4FF, #EDE4FA);
+  border-radius: 14px 14px 0 0;
+}
+.log-detail-close { margin-left: auto; background: none; border: none; font-size: 18px; cursor: pointer; color: var(--light); flex-shrink: 0; }
+.log-detail-body { padding: 20px; }
+.log-detail-title { font-size: 14px; font-weight: 800; margin-bottom: 4px; color: var(--pixel-dark); }
+.log-detail-meta { font-size: 11px; color: var(--mid); }
+.log-detail-content { font-size: 13px; line-height: 1.8; color: var(--text); white-space: pre-wrap; margin-top: 16px; }
+.log-detail-actions { display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap; }
+.log-action-btn { background: var(--purple-pale); border: 1.5px solid var(--border); border-radius: 20px; padding: 7px 14px; font-size: 12px; cursor: pointer; font-family: inherit; color: var(--accent); font-weight: 600; transition: all 0.15s; }
+.log-action-btn:hover { background: var(--accent); color: white; border-color: var(--accent); }
+.log-action-btn.primary { background: var(--accent); color: white; border-color: var(--accent); }
+
+/* MODALS */
+.modal-overlay { position: fixed; inset: 0; background: rgba(30,10,60,0.25); display: none; align-items: center; justify-content: center; z-index: 100; }
+.modal-overlay.open { display: flex; }
+.modal { background: white; border-radius: 16px; padding: 24px; width: 480px; max-width: 95vw; max-height: 80vh; overflow-y: auto; border: 1.5px solid var(--border); }
+.modal-title { font-size: 16px; font-weight: 800; margin-bottom: 4px; color: var(--pixel-dark); }
+.modal-sub { font-size: 12px; color: var(--mid); margin-bottom: 16px; }
+.modal-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.modal-chip { background: var(--purple-pale); border: 1.5px solid var(--border); border-radius: 20px; padding: 7px 14px; font-size: 12px; cursor: pointer; font-family: inherit; color: var(--accent); font-weight: 600; transition: all 0.15s; }
+.modal-chip:hover { background: var(--accent); color: white; border-color: var(--accent); }
+.modal-close { float: right; background: none; border: none; font-size: 18px; cursor: pointer; color: var(--light); margin-top: -4px; }
+.modal-input-row { display: flex; gap: 8px; margin-top: 12px; }
+.modal-input { flex: 1; border: 1.5px solid var(--border); border-radius: 8px; padding: 8px 12px; font-size: 12px; font-family: inherit; outline: none; background: var(--bg); }
+.modal-input:focus { border-color: var(--purple-light); }
+.modal-send { background: var(--accent); color: white; border: none; border-radius: 8px; padding: 8px 14px; cursor: pointer; font-family: inherit; font-size: 12px; font-weight: 700; }
+.form-row { margin-bottom: 12px; }
+.form-label { font-size: 11px; font-weight: 700; color: var(--mid); margin-bottom: 4px; }
+.form-input, .form-select { width: 100%; border: 1.5px solid var(--border); border-radius: 8px; padding: 8px 12px; font-size: 13px; font-family: inherit; outline: none; background: var(--bg); }
+.form-input:focus, .form-select:focus { border-color: var(--purple-light); }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="sidebar-brand">
+    <div class="logo-wrap">
+<img class="logo-img" src="data:image/png;base64,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" alt="묘묘티 로고">
+      <div class="brand-text">
+        <div class="sidebar-brand-name">묘묘티</div>
+        <div class="sidebar-brand-sub">Play your mood</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-section">Business</div>
+  <div class="nav-item" id="nav-log" onclick="showView('log')">
+    <span class="nav-icon">📋</span> 직원 보고 로그
+    <span class="nav-badge" id="logBadge" style="display:none">0</span>
+  </div>
+
+  <div class="nav-section">Work</div>
+  <div class="nav-item active" id="nav-project" onclick="showView('project')">
+    <span class="nav-icon">📁</span> 프로젝트
+  </div>
+  <div class="nav-item" id="nav-agent" onclick="openAgentOS()">
+    <span class="nav-icon">🤖</span> Agent OS
+  </div>
+
+  <div class="nav-section">System</div>
+  <div class="nav-item"><span class="nav-icon">⚙️</span> 설정</div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <div style="display:flex;align-items:center;gap:12px">
+      <div class="topbar-title" id="viewTitle">프로젝트</div>
+      <div id="project-filters" style="display:flex;gap:4px">
+        <div class="filter-tabs">
+          <button class="filter-tab active" onclick="filterCards('all',this)">전체</button>
+          <button class="filter-tab" onclick="filterCards('product',this)">제품개발</button>
+          <button class="filter-tab" onclick="filterCards('marketing',this)">마케팅</button>
+          <button class="filter-tab" onclick="filterCards('sales',this)">해외영업</button>
+          <button class="filter-tab" onclick="filterCards('design',this)">디자인</button>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div id="project-btn"><button class="btn-new" onclick="openAddModal()">+ 프로젝트 추가</button></div>
+      <div id="log-btn" style="display:none"><button class="btn-new" onclick="openAddLogModal()">+ 보고 추가</button></div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- PROJECT VIEW -->
+    <div class="view active" id="view-project">
+      <div class="columns">
+        <div>
+          <div class="column-header">🟡 진행 중 <span class="col-count" id="count-progress">0</span></div>
+          <div id="col-progress"><div class="empty-state"><div class="empty-icon">📌</div>진행 중인 프로젝트가 없어요</div></div>
+        </div>
+        <div>
+          <div class="column-header">🔵 검토 중 <span class="col-count" id="count-review">0</span></div>
+          <div id="col-review"><div class="empty-state"><div class="empty-icon">🔍</div>검토 중인 프로젝트가 없어요</div></div>
+        </div>
+        <div>
+          <div class="column-header">⚪ 예정 <span class="col-count" id="count-planned">0</span></div>
+          <div id="col-planned"><div class="empty-state"><div class="empty-icon">📅</div>예정된 프로젝트가 없어요</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LOG VIEW -->
+    <div class="view" id="view-log">
+      <div class="log-filters">
+        <button class="log-filter-btn active" onclick="filterLogs('all',this)">전체</button>
+        <button class="log-filter-btn" onclick="filterLogs('국내마케팅',this)">📣 국내마케팅</button>
+        <button class="log-filter-btn" onclick="filterLogs('해외마케팅',this)">🌐 해외마케팅</button>
+        <button class="log-filter-btn" onclick="filterLogs('해외영업',this)">🌏 해외영업</button>
+        <button class="log-filter-btn" onclick="filterLogs('디자인',this)">🎨 디자인</button>
+        <button class="log-filter-btn" onclick="filterLogs('제품개발',this)">🧪 제품개발</button>
+      </div>
+      <div class="log-list" id="logList">
+        <div class="empty-state" style="background:var(--card-bg);border:1.5px solid var(--border);border-radius:14px;padding:60px 20px">
+          <div style="font-size:36px;margin-bottom:12px">🌅</div>
+          <div style="font-size:14px;font-weight:800;color:var(--accent);margin-bottom:8px">내일 오전 7시 첫 보고가 올라와요</div>
+          <div style="color:var(--mid)">9명의 직원이 매일 아침 보고서를 올립니다</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- LOG DETAIL PANEL -->
+<div class="log-detail-overlay" id="logDetailOverlay" onclick="closeLogDetail(event)">
+  <div class="log-detail-panel" id="logDetailPanel">
+    <div class="log-detail-header">
+      <div>
+        <div class="log-detail-title" id="detailTitle"></div>
+        <div class="log-detail-meta" id="detailMeta"></div>
+      </div>
+      <button class="log-detail-close" onclick="document.getElementById('logDetailOverlay').classList.remove('open')">✕</button>
+    </div>
+    <div class="log-detail-body">
+      <div class="log-detail-content" id="detailContent"></div>
+      <div class="log-detail-actions" id="detailActions"></div>
+    </div>
+  </div>
+</div>
+
+<!-- AGENT MODAL -->
+<div class="modal-overlay" id="agentModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('agentModal')">✕</button>
+    <div class="modal-title" id="modalTitle"></div>
+    <div class="modal-sub" id="modalSub"></div>
+    <div style="margin-bottom:8px;font-size:10px;font-weight:700;color:var(--light);text-transform:uppercase;letter-spacing:1px">빠른 실행</div>
+    <div class="modal-actions" id="modalActions"></div>
+    <div class="modal-input-row">
+      <input class="modal-input" id="modalInput" placeholder="직접 입력..." onkeydown="if(event.key==='Enter')sendModal()">
+      <button class="modal-send" onclick="sendModal()">→ AI에게</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD PROJECT MODAL -->
+<div class="modal-overlay" id="addModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('addModal')">✕</button>
+    <div class="modal-title" style="margin-bottom:16px">프로젝트 추가</div>
+    <div class="form-row"><div class="form-label">프로젝트명</div><input class="form-input" id="f-title" placeholder="예: 여름 한정 블렌딩 출시"></div>
+    <div class="form-row"><div class="form-label">영역</div>
+      <select class="form-select" id="f-dept">
+        <option value="product">🧪 제품개발</option>
+        <option value="marketing">📣 마케팅</option>
+        <option value="sales">🌏 해외영업</option>
+        <option value="design">🎨 디자인</option>
+      </select>
+    </div>
+    <div class="form-row"><div class="form-label">우선순위</div>
+      <select class="form-select" id="f-priority">
+        <option value="high">높음</option>
+        <option value="normal">보통</option>
+      </select>
+    </div>
+    <div class="form-row"><div class="form-label">마감 D-Day</div><input class="form-input" id="f-dday" type="number" placeholder="예: 30"></div>
+    <div class="form-row"><div class="form-label">상태</div>
+      <select class="form-select" id="f-status">
+        <option value="progress">진행 중</option>
+        <option value="review">검토 중</option>
+        <option value="planned">예정</option>
+      </select>
+    </div>
+    <button class="btn-new" style="width:100%;margin-top:4px" onclick="addProject()">추가하기</button>
+  </div>
+</div>
+
+<!-- ADD LOG MODAL -->
+<div class="modal-overlay" id="addLogModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('addLogModal')">✕</button>
+    <div class="modal-title" style="margin-bottom:16px">보고 추가</div>
+    <div class="form-row"><div class="form-label">제목</div><input class="form-input" id="l-title" placeholder="예: [AI 결과물] 마케팅팀 A — 아침 보고"></div>
+    <div class="form-row"><div class="form-label">팀</div>
+      <select class="form-select" id="l-team">
+        <option value="국내마케팅">📣 국내마케팅</option>
+        <option value="해외마케팅">🌐 해외마케팅</option>
+        <option value="해외영업">🌏 해외영업</option>
+        <option value="디자인">🎨 디자인</option>
+        <option value="제품개발">🧪 제품개발</option>
+      </select>
+    </div>
+    <div class="form-row"><div class="form-label">내용</div>
+      <textarea class="form-input" id="l-content" rows="6" placeholder="보고 내용을 붙여넣으세요..." style="resize:vertical"></textarea>
+    </div>
+    <button class="btn-new" style="width:100%;margin-top:4px" onclick="addLog()">추가하기</button>
+  </div>
+</div>
+
+<script>
+let projects = JSON.parse(localStorage.getItem('mmtProjects') || '[]');
+let logs = JSON.parse(localStorage.getItem('mmtLogs') || '[]');
+let currentFilter = 'all';
+let currentLogFilter = 'all';
+let currentModalProject = null;
+
+const deptInfo = {
+  product:   { label:'🧪 제품개발', tagClass:'tag-product',   color:'#F4A96A' },
+  marketing: { label:'📣 마케팅',   tagClass:'tag-marketing', color:'#9B84C4' },
+  sales:     { label:'🌏 해외영업', tagClass:'tag-sales',     color:'#6BAF8E' },
+  design:    { label:'🎨 디자인',   tagClass:'tag-design',    color:'#6A9ECC' },
+};
+const priorityInfo = {
+  high:   { label:'높음', tagClass:'tag-high' },
+  normal: { label:'보통', tagClass:'tag-normal' },
+};
+const teamInfo = {
+  '국내마케팅': { icon:'📣', color:'#5B1FAE', bg:'#EDE4FA' },
+  '해외마케팅': { icon:'🌐', color:'#2060A0', bg:'#D4E8F5' },
+  '해외영업':   { icon:'🌏', color:'#2A7A54', bg:'#D4EDE4' },
+  '디자인':     { icon:'🎨', color:'#C06020', bg:'#FDE8D4' },
+  '제품개발':   { icon:'🧪', color:'#A07000', bg:'#FFF0D0' },
+};
+const agentActions = {
+  product: [
+    { label:'무드별 블렌딩 제안', prompt:'묘묘티 무드별 블렌딩 티 레시피를 3가지 제안해줘. 이름, 재료, 타겟 무드 포함.' },
+    { label:'신제품 기획안', prompt:'묘묘티 신제품 기획안을 작성해줘. 컨셉, 타겟 무드, 블렌딩 방향 포함.' },
+    { label:'원재료 트렌드', prompt:'2026년 글로벌 티 블렌딩 원재료 트렌드를 조사해줘.' },
+    { label:'제품 네이밍', prompt:'묘묘티 제품에 쓸 감성적인 이름 5가지를 제안해줘.' },
+  ],
+  marketing: [
+    { label:'인스타 카피', prompt:'묘묘티 인스타그램 카피 3개를 써줘. "Play your mood" 기반, 해시태그 포함.' },
+    { label:'콘텐츠 캘린더', prompt:'묘묘티 인스타그램 2주치 콘텐츠 캘린더를 짜줘.' },
+    { label:'캠페인 기획', prompt:'묘묘티 신제품 출시 캠페인 아이디어를 제안해줘.' },
+  ],
+  sales: [
+    { label:'일본 바이어 이메일', prompt:'묘묘티 일본 바이어 첫 컨택 이메일을 영어/일본어로 써줘.' },
+    { label:'북미 바이어 이메일', prompt:'묘묘티 북미 바이어 첫 컨택 이메일을 영어로 써줘.' },
+    { label:'입점 채널 리서치', prompt:'묘묘티가 입점할 수 있는 일본과 북미 편집숍, 플랫폼을 추천해줘.' },
+  ],
+  design: [
+    { label:'패키징 아이디어', prompt:'묘묘티 신제품 패키징 컨셉을 제안해줘. 색상, 무드, 키 비주얼 포함.' },
+    { label:'SNS 비주얼 가이드', prompt:'묘묘티 인스타그램 피드 비주얼 방향을 제안해줘.' },
+  ],
+};
+
+function showView(v) {
+  document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+  document.getElementById('view-'+v).classList.add('active');
+  document.getElementById('nav-'+v)?.classList.add('active');
+  const titles = { project:'프로젝트', log:'직원 보고 로그' };
+  document.getElementById('viewTitle').textContent = titles[v] || v;
+  document.getElementById('project-filters').style.display = v==='project' ? 'flex' : 'none';
+  document.getElementById('project-btn').style.display = v==='project' ? '' : 'none';
+  document.getElementById('log-btn').style.display = v==='log' ? '' : 'none';
+  if (v==='log') { document.getElementById('logBadge').style.display='none'; renderLogs(currentLogFilter); }
+}
+
+function saveProjects() { localStorage.setItem('mmtProjects', JSON.stringify(projects)); }
+function getDday(d) {
+  if (d < 0) return { text:`D+${Math.abs(d)}`, cls:'over' };
+  if (d <= 7) return { text:`D-${d}`, cls:'soon' };
+  return { text:`D-${d}`, cls:'ok' };
+}
+function renderCard(p) {
+  const dd = getDday(p.dday);
+  const dept = deptInfo[p.dept] || deptInfo.product;
+  const pri = priorityInfo[p.priority] || priorityInfo.normal;
+  return `<div class="project-card" onclick="openAgentModal(${p.id})">
+    <div class="card-title">${p.title}</div>
+    <div class="card-tags">
+      <span class="tag ${dept.tagClass}">${dept.label.replace(/^../,'').trim()}</span>
+      <span class="tag ${pri.tagClass}">${pri.label}</span>
+      ${p.ai ? '<span class="ai-badge">🤖 AI</span>' : ''}
+    </div>
+    ${p.progress > 0 ? `<div>
+      <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:${p.progress}%;background:${dept.color}"></div></div>
+      <div class="progress-meta"><span>${dept.label}</span><span>${p.progress}%</span></div>
+    </div>` : '<div style="height:4px"></div>'}
+    <div class="card-footer">
+      <span class="card-dept">${dept.label}</span>
+      <span class="card-dday ${dd.cls}">${dd.text}</span>
+    </div>
+  </div>`;
+}
+function render(filter) {
+  currentFilter = filter;
+  const filtered = filter==='all' ? projects : projects.filter(p => p.dept===filter);
+  const cols = { progress:[], review:[], planned:[] };
+  filtered.forEach(p => { if(cols[p.status]) cols[p.status].push(p); });
+  ['progress','review','planned'].forEach(s => {
+    const el = document.getElementById('col-'+s);
+    const empty = { progress:'진행 중인', review:'검토 중인', planned:'예정된' };
+    el.innerHTML = cols[s].length ? cols[s].map(renderCard).join('') :
+      `<div class="empty-state"><div class="empty-icon">🫧</div>${empty[s]} 프로젝트가 없어요</div>`;
+    document.getElementById('count-'+s).textContent = cols[s].length;
+  });
+}
+function filterCards(f, btn) {
+  document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  render(f);
+}
+
+function saveLogs() { localStorage.setItem('mmtLogs', JSON.stringify(logs)); }
+function renderLogs(filter) {
+  currentLogFilter = filter;
+  const filtered = filter==='all' ? logs : logs.filter(l => l.team===filter);
+  const el = document.getElementById('logList');
+  if (!filtered.length) {
+    el.innerHTML = `<div class="empty-state" style="background:var(--card-bg);border:1.5px solid var(--border);border-radius:14px;padding:60px 20px">
+      <div style="font-size:36px;margin-bottom:12px">🌅</div>
+      <div style="font-size:14px;font-weight:800;color:var(--accent);margin-bottom:8px">내일 오전 7시 첫 보고가 올라와요</div>
+      <div style="color:var(--mid)">9명의 직원이 매일 아침 보고서를 올립니다</div>
+    </div>`; return;
+  }
+  el.innerHTML = filtered.map((l, i) => {
+    const t = teamInfo[l.team] || teamInfo['국내마케팅'];
+    const idx = logs.indexOf(l);
+    return `<div class="log-item" onclick="openLogDetail(${idx})">
+      <div class="log-icon" style="background:${t.bg}">${t.icon}</div>
+      <div style="flex:1;min-width:0">
+        <div class="log-title">${l.title}</div>
+        ${l.slug ? `<div class="log-slug">${l.slug}</div>` : ''}
+      </div>
+      <div class="log-type">보고서</div>
+      <span class="log-tag" style="background:${t.bg};color:${t.color}">${l.team}</span>
+      <div class="log-date">${l.date}</div>
+    </div>`;
+  }).join('');
+}
+function filterLogs(f, btn) {
+  document.querySelectorAll('.log-filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderLogs(f);
+}
+function openLogDetail(idx) {
+  const l = logs[idx];
+  document.getElementById('detailTitle').textContent = l.title;
+  document.getElementById('detailMeta').textContent = `${l.team} · ${l.date}`;
+  document.getElementById('detailContent').textContent = l.content || '(내용 없음)';
+  document.getElementById('detailActions').innerHTML = `
+    <button class="log-action-btn primary" onclick="askAgent('이 보고서를 바탕으로 오늘 당장 실행할 수 있는 액션을 3가지 제안해줘:\\n${(l.content||'').slice(0,200)}')">🤖 AI 액션 뽑기</button>
+    <button class="log-action-btn" onclick="deleteLog(${idx})">🗑 삭제</button>`;
+  document.getElementById('logDetailOverlay').classList.add('open');
+}
+function closeLogDetail(e) {
+  if (e.target===document.getElementById('logDetailOverlay'))
+    document.getElementById('logDetailOverlay').classList.remove('open');
+}
+function deleteLog(idx) {
+  logs.splice(idx,1); saveLogs();
+  document.getElementById('logDetailOverlay').classList.remove('open');
+  renderLogs(currentLogFilter);
+}
+function openAddLogModal() { document.getElementById('addLogModal').classList.add('open'); }
+function addLog() {
+  const title = document.getElementById('l-title').value.trim();
+  if (!title) return;
+  const team = document.getElementById('l-team').value;
+  const content = document.getElementById('l-content').value.trim();
+  const now = new Date();
+  const date = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+  const slug = 'agent-'+team.toLowerCase().replace(/[^a-z0-9]/g,'')+'-'+date.replace(/-/g,'');
+  logs.unshift({ title, team, content, date, slug });
+  saveLogs(); renderLogs(currentLogFilter); closeModal('addLogModal');
+  document.getElementById('l-title').value = '';
+  document.getElementById('l-content').value = '';
+}
+
+function openAgentModal(id) {
+  const p = projects.find(x => x.id===id);
+  if (!p) return;
+  currentModalProject = p;
+  document.getElementById('modalTitle').textContent = p.title;
+  document.getElementById('modalSub').textContent = `${deptInfo[p.dept]?.label||''} · AI에게 물어보세요`;
+  document.getElementById('modalActions').innerHTML = (agentActions[p.dept]||[]).map(a =>
+    `<button class="modal-chip" onclick="askAgent(${JSON.stringify(a.prompt)})">${a.label}</button>`).join('');
+  document.getElementById('modalInput').value = '';
+  document.getElementById('agentModal').classList.add('open');
+}
+function openAgentOS() {
+  currentModalProject = null;
+  document.getElementById('modalTitle').textContent = '🤖 Agent OS';
+  document.getElementById('modalSub').textContent = '묘묘티 AI 에이전트 — 무엇이든 물어보세요';
+  const all = [...(agentActions.product||[]).slice(0,2),...(agentActions.marketing||[]).slice(0,2),...(agentActions.sales||[]).slice(0,2)];
+  document.getElementById('modalActions').innerHTML = all.map(a =>
+    `<button class="modal-chip" onclick="askAgent(${JSON.stringify(a.prompt)})">${a.label}</button>`).join('');
+  document.getElementById('modalInput').value = '';
+  document.getElementById('agentModal').classList.add('open');
+}
+function askAgent(prompt) { if(typeof sendPrompt==='function') sendPrompt('[묘묘티 AI] '+prompt); closeModal('agentModal'); }
+function sendModal() {
+  const val = document.getElementById('modalInput').value.trim();
+  if (!val) return;
+  const prefix = currentModalProject ? `[묘묘티 ${deptInfo[currentModalProject.dept]?.label||''}] ` : '[묘묘티 AI] ';
+  if(typeof sendPrompt==='function') sendPrompt(prefix+val);
+  closeModal('agentModal');
+}
+function closeModal(id) { document.getElementById(id).classList.remove('open'); currentModalProject=null; }
+function openAddModal() { document.getElementById('addModal').classList.add('open'); }
+function addProject() {
+  const title = document.getElementById('f-title').value.trim();
+  if (!title) return;
+  projects.push({ id:Date.now(), title, dept:document.getElementById('f-dept').value, priority:document.getElementById('f-priority').value, progress:0, status:document.getElementById('f-status').value, dday:parseInt(document.getElementById('f-dday').value)||30, ai:false });
+  saveProjects(); render(currentFilter); closeModal('addModal');
+  document.getElementById('f-title').value='';
+}
+
+render('all');
+</script>
+</body>
+</html>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
