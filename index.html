@@ -465,19 +465,27 @@ if(sessionStorage.getItem('mmt_auth')==='1'){
 
     <!-- LOG VIEW -->
     <div class="view" id="view-log">
-      <div class="log-filters">
-        <button class="log-filter-btn active" onclick="filterLogs('all',this)">전체</button>
-        <button class="log-filter-btn" onclick="filterLogs('국내마케팅',this)">📣 국내마케팅</button>
-        <button class="log-filter-btn" onclick="filterLogs('해외마케팅',this)">🌐 해외마케팅</button>
-        <button class="log-filter-btn" onclick="filterLogs('해외영업',this)">🌏 해외영업</button>
-        <button class="log-filter-btn" onclick="filterLogs('디자인',this)">🎨 디자인</button>
-        <button class="log-filter-btn" onclick="filterLogs('제품개발',this)">🧪 제품개발</button>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+        <div class="log-filters" style="flex:1">
+          <button class="log-filter-btn active" onclick="filterLogs('all',this)">전체</button>
+          <button class="log-filter-btn" onclick="filterLogs('전체',this)">🐱 회의록</button>
+          <button class="log-filter-btn" onclick="filterLogs('국내마케팅A',this)">📊 마케팅A</button>
+          <button class="log-filter-btn" onclick="filterLogs('국내마케팅B',this)">✨ 마케팅B</button>
+          <button class="log-filter-btn" onclick="filterLogs('해외마케팅A',this)">🗾 해외A</button>
+          <button class="log-filter-btn" onclick="filterLogs('해외마케팅B',this)">🌎 해외B</button>
+          <button class="log-filter-btn" onclick="filterLogs('디자인',this)">🎨 디자인</button>
+          <button class="log-filter-btn" onclick="filterLogs('해외영업A',this)">🗾 영업A</button>
+          <button class="log-filter-btn" onclick="filterLogs('해외영업B',this)">🌎 영업B</button>
+          <button class="log-filter-btn" onclick="filterLogs('제품개발',this)">🧪 제품개발</button>
+        </div>
+        <button onclick="fetchReports()" style="background:var(--accent);color:white;border:none;border-radius:8px;padding:6px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap">↻ 새로고침</button>
       </div>
+      <div id="fetchStatus" style="font-size:11px;color:var(--light);margin-bottom:8px;text-align:right"></div>
       <div class="log-list" id="logList">
         <div class="empty-state" style="background:var(--card-bg);border:1.5px solid var(--border);border-radius:14px;padding:60px 20px">
           <div style="font-size:36px;margin-bottom:12px">🌅</div>
-          <div style="font-size:14px;font-weight:800;color:var(--accent);margin-bottom:8px">내일 오전 7시 첫 보고가 올라와요</div>
-          <div style="color:var(--mid)">9명의 직원이 매일 아침 보고서를 올립니다</div>
+          <div style="font-size:14px;font-weight:800;color:var(--accent);margin-bottom:8px">보고서를 불러오는 중...</div>
+          <div style="color:var(--mid)">잠시만 기다려주세요</div>
         </div>
       </div>
     </div>
